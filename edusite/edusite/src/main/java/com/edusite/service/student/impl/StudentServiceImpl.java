@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.edusite.dao.StudentRepository;
 import com.edusite.dao.SyllabusRepository;
 import com.edusite.dao.TestRepository;
+import com.edusite.dao.custom.StudentCustomDAO;
 import com.edusite.entity.ClassTest;
 import com.edusite.entity.Student;
 import com.edusite.entity.Subject;
@@ -29,6 +30,9 @@ public class StudentServiceImpl implements StudentService {
 	
 	@Autowired
 	private SyllabusRepository syllabusRepository;
+	
+	@Autowired
+	private StudentCustomDAO studentDAO;
 	
 	@Override
 	public List<ClassTest> findAll() {
@@ -72,7 +76,7 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public StudentModel getSubject(int admissionNumber) {
 
-		Optional<List<Subject>> result = studentRepository.getSubject(admissionNumber);
+		Optional<List<Subject>> result = studentDAO.getBySubject(admissionNumber);
 		
 		StudentModel student = new StudentModel();
 		

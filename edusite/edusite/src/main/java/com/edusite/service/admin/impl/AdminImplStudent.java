@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.edusite.dao.StudentRepository;
 import com.edusite.entity.Student;
 import com.edusite.exceptionhandler.StudentNotFoundExcpetion;
+import com.edusite.model.StudentModel;
 import com.edusite.service.admin.AdminServieStudent;
 @Service
 public class AdminImplStudent implements AdminServieStudent {
@@ -39,8 +40,12 @@ public class AdminImplStudent implements AdminServieStudent {
 	}
 
 	@Override
-	public void saveStudent(Student student) {
-		studentRepository.save(student);
+	public void saveStudent(StudentModel student) {
+		//converter method here to convert model to entity
+		Student studentEntity = student.converter(student);
+		
+		
+		studentRepository.save(studentEntity);
 	}
 
 	@Override

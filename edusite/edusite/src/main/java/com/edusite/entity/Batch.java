@@ -1,46 +1,39 @@
 package com.edusite.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@IdClass(TeacherInfoId.class)
-@Table(name = "tecaher_info")
-public class TeacherInfo {
+@Table(name = "batch")
+public class Batch {
 
-	@Id
-	@Column(name = "employeeId")
-	private int employeeId;
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "",
+			joinColumns = @JoinColumn(name = "batch"),
+			inverseJoinColumns = @JoinColumn(name = "employeeId" ))
+	private Set<Teacher> teacher;
 	
 	@Id
 	@Column(name = "batch")
 	private String batch;
 	
-	
-	@Column(name = "subject_code")
-	private int subjectCode;
-
-	public TeacherInfo(int teacherEmployeeId, String batch, int subjectCode) {
+	public Batch(int teacherEmployeeId, String batch) {
 		super();
-		this.employeeId = teacherEmployeeId;
 		this.batch = batch;
-		this.subjectCode = subjectCode;
 	}
 
-	public TeacherInfo() {
+	public Batch() {
 	}
 
-	public int getTeacherEmployeeId() {
-		return employeeId;
-	}
-
-	public void setTeacherEmployeeId(int teacherEmployeeId) {
-		this.employeeId = teacherEmployeeId;
-	}
-
+	
 	public String getBatch() {
 		return batch;
 	}
@@ -49,19 +42,7 @@ public class TeacherInfo {
 		this.batch = batch;
 	}
 
-	public int getSubjectCode() {
-		return subjectCode;
-	}
 
-	public void setSubjectCode(int subjectCode) {
-		this.subjectCode = subjectCode;
-	}
-
-	@Override
-	public String toString() {
-		return "TeacherInfo [teacherEmployeeId=" + employeeId + ", batch=" + batch + ", subjectCode="
-				+ subjectCode + "]";
-	}
 	
 	
 	

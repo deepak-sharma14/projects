@@ -3,34 +3,36 @@ package com.edusite.dao.custom;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.edusite.entity.Student;
-import com.edusite.entity.TeacherInfo;
+import com.edusite.entity.Batch;
 @Repository
 @Component
 
 public class TeacherDAOImpl implements TeacherCustomDAO  {
-	@Autowired
-	private SessionFactory sessionFactory;
+	
+	@PersistenceContext
+	EntityManager entityManager;
 	
 	@Override
 	public Optional<List<Student>> getByStudent(int employeeId) {
 		
 		Optional<List<Student>> students = null;
 		
-		Session session = sessionFactory.getCurrentSession();
+		Session session = entityManager.unwrap(Session.class);
 		
-		Criteria criteriaBatch = session.createCriteria(TeacherInfo.class);
+		Criteria criteriaBatch = session.createCriteria(Batch.class);
 		
 			Projection batchProjection = Projections.property("bacth");
 		

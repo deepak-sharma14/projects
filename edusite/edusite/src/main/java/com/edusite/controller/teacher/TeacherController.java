@@ -131,7 +131,13 @@ public class TeacherController {
 		
 	}
 	
+	/**
+	 * GET mapping for all bacthes of teacher
+	 */
 	
 	
+	/**
+	 * GET mapping for all student for the batch
+	 */
 	
 }

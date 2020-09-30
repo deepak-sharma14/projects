@@ -2,11 +2,15 @@ package com.edusite.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,20 +19,8 @@ public class Student {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "admissionNumber")
+	@Column(name = "admissionNo")
 	private int admissionNumber;
-	
-	@Column(name = "name")
-	private String name;
-		
-	@Column(name = "father_name")
-	private String fatherName;
-	
-	@Column(name = "mother_name")
-	private String mothersName;
-	
-	@Column(name = "address")
-	private String address;
 	
 	@Column(name = "year")
 	private int year;
@@ -39,24 +31,18 @@ public class Student {
 	//batch
 	@Column(name = "batch")
 	private String batch;
+	
+	@OneToOne
+	@JoinColumn(name = "userId")
+	private User user;
+	
+	@OneToMany(mappedBy = "admissionNo", cascade = CascadeType.ALL)
+	List<Subject> subject;  
 
 	public Student() {
 
 	
 	}
-
-
-	public Student(int admissionNumber, String name, String fatherName, String mothersName,
-			String address, List<String> subjects) {
-		this.admissionNumber = admissionNumber;
-		this.name = name;
-		this.fatherName = fatherName;
-		this.mothersName = mothersName;
-		this.address = address;
-	}
-
-
-	
 
 
 	public int getAdmissionNumber() {
@@ -69,41 +55,6 @@ public class Student {
 	}
 
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
-	public String getFatherName() {
-		return fatherName;
-	}
-
-
-	public void setFatherName(String fatherName) {
-		this.fatherName = fatherName;
-	}
-
-
-	public String getMothersName() {
-		return mothersName;
-	}
-
-
-	public void setMothersName(String mothersName) {
-		this.mothersName = mothersName;
-	}
-
-
-	public String getAddress() {
-		return address;
-	}
-
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	
 	public String getRole() {
 		return role;
 	}
@@ -122,17 +73,32 @@ public class Student {
 	public void setYear(int year) {
 		this.year = year;
 	}
+	
+	
+
+	public String getBatch() {
+		return batch;
+	}
 
 
-	public String getName() {
-		return name;
+	public void setBatch(String batch) {
+		this.batch = batch;
+	}
+
+
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Student [admissionNumber=" + admissionNumber + ", name=" + name + ", fatherName=" + fatherName
-				+ ", mothersName=" + mothersName + ", address=" + address + ", year=" + year
+		return "Student [admissionNumber=" + admissionNumber + ", year=" + year
 				+ ", role=" + role + "]";
 	}
 	

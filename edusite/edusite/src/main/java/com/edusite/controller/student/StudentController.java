@@ -61,7 +61,8 @@ public class StudentController {
 	
 		return new ResponseEntity<>(syllabus, HttpStatus.ACCEPTED);
 	}
-
+	
+	
 	
 
 

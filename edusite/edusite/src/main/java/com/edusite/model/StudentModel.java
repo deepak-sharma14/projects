@@ -2,6 +2,8 @@ package com.edusite.model;
 
 import java.util.List;
 
+import com.edusite.entity.Student;
+
 public class StudentModel {
 	
 	private int admissionNumber;
@@ -166,6 +168,21 @@ public class StudentModel {
 				+ ", motherName=" + motherName + ", address=" + address + ", year=" + year + ", batch=" + batch
 				+ ", role=" + role + ", subjectCode=" + subjectCode + ", subjectName=" + subjectName + ", employeeId="
 				+ employeeId + "]";
+	}
+
+
+	public Student converter(StudentModel student) {
+		Student studentEntity = new Student();
+		
+		studentEntity.setAdmissionNumber(student.getAdmissionNumber());
+		studentEntity.setName(student.getName());
+		studentEntity.setFatherName(student.getFatherName());
+		studentEntity.setMothersName(student.getMotherName());
+		studentEntity.setAddress(student.getAddress());
+		studentEntity.setRole("Student");
+		studentEntity.setYear(student.getYear());
+		
+		return studentEntity;
 	}
 	
 	

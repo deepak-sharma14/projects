@@ -16,7 +16,7 @@ public class Syllabus {
 
 	@Id
 	@Column(name = "subject_code")
-	private int subjectCode;
+	private String subjectCode;
 	
 	@Id
 	@Column(name = "year")
@@ -25,11 +25,11 @@ public class Syllabus {
 	@Column(name = "content")
 	private String syllabusContent;
 
-	public int getSubjectCode() {
+	public String getSubjectCode() {
 		return subjectCode;
 	}
 
-	public void setSubjectCode(int subjectCode) {
+	public void setSubjectCode(String subjectCode) {
 		this.subjectCode = subjectCode;
 	}
 

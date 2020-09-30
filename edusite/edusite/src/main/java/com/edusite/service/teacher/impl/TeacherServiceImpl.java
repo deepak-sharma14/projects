@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.edusite.dao.TeacherReopsitory;
+import com.edusite.dao.custom.TeacherCustomDAO;
 import com.edusite.entity.Student;
 import com.edusite.entity.Teacher;
 import com.edusite.exceptionhandler.StudentNotFoundExcpetion;
@@ -15,6 +16,9 @@ import com.edusite.model.TeacherModel;
 import com.edusite.service.teacher.TeacherService;
 @Service
 public class TeacherServiceImpl implements TeacherService {
+	
+	@Autowired
+	private TeacherCustomDAO teacherDAO;
 	
 	@Autowired
 	private TeacherReopsitory teacherReopsitory;
@@ -36,7 +40,7 @@ public class TeacherServiceImpl implements TeacherService {
 	@Override
 	public TeacherModel getStudent(int employeeId) {
 
-		Optional<List<Student>> result = teacherReopsitory.getStudent(employeeId);
+		Optional<List<Student>> result = teacherDAO.getByStudent(employeeId);
 		
 		TeacherModel teacher = new TeacherModel();
 		
@@ -50,5 +54,15 @@ public class TeacherServiceImpl implements TeacherService {
 		
 		return teacher;
 	}
+	
+	/**
+	 * GET batches from employeeID
+	 * from DAO use findTeacherById and use getBatches() to return list
+	 */
+	
+	/**
+	 * GET students for the batch got from list of bacthes
+	 * custom jpa method 
+	 */
 
 }

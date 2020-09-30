@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.edusite.entity.Student;
 import com.edusite.exceptionhandler.StudentNotFoundExcpetion;
+import com.edusite.model.StudentModel;
 import com.edusite.service.admin.AdminServieStudent;
 
 @RestController
@@ -54,10 +55,10 @@ public class AdminStudentController {
 	 * 
 	 */
 	@PostMapping("/student")
-	public ResponseEntity<Student> saveStudent(@RequestBody Student student){
+	public ResponseEntity<String> saveStudent(@RequestBody StudentModel student){
 			student.setAdmissionNumber(0);
 			adminStudentService.saveStudent(student);
-			return new ResponseEntity<>(student, HttpStatus.ACCEPTED);
+			return  new ResponseEntity<>("NewStudent created",HttpStatus.ACCEPTED);
 	}
 	
 	
@@ -66,7 +67,7 @@ public class AdminStudentController {
 	 * 
 	 */
 	@PutMapping("/students")
-	public ResponseEntity<String> updateStudent(@RequestBody Student student){
+	public ResponseEntity<String> updateStudent(@RequestBody StudentModel student){
 		adminStudentService.saveStudent (student);
 		return new ResponseEntity<>("Student with admission number " + student.getAdmissionNumber() +
 										"has been updated", HttpStatus.ACCEPTED);  
@@ -86,6 +87,11 @@ public class AdminStudentController {
 			return new ResponseEntity<>("Student deleted with admission number" + admissionNumber,
 											HttpStatus.ACCEPTED);
 	}
+	
+	
+	/**
+	 * GET subjects from admission number
+	 */
 
 	
 

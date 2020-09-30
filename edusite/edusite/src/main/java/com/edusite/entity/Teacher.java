@@ -1,10 +1,18 @@
 package com.edusite.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,18 +23,21 @@ public class Teacher {
 	@Column(name = "employee_id")
 	private int employeeId;
 	
-	@Column(name = "name")
-	private String name;
-	
-	@Column(name = "address")
-	private String address;
-	
 	@Column(name = "educational_qualification")
 	private String educationQualifications;
 	
 	@Column(name = "role")
 	private String role;
 
+	@OneToOne
+	@JoinColumn(name = "userId")
+	private User user;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "",
+			joinColumns = @JoinColumn(name = "empployeeId"),
+			inverseJoinColumns = @JoinColumn(name = "batch" ))
+	private Set<Batch> batch;
 	
 	/**
 	 *teacher->Batches->Students
@@ -40,11 +51,9 @@ public class Teacher {
 	}
 
 
-	public Teacher(int employeeId, String name, String address) {
+	public Teacher(int employeeId) {
 		super();
 		this.employeeId = employeeId;
-		this.name = name;
-		this.address = address;
 	}	
 			
 
@@ -57,27 +66,6 @@ public class Teacher {
 	public void setEmployeeId(int employeeId) {
 		this.employeeId = employeeId;
 	}
-
-
-	public String getName() {
-		return name;
-	}
-
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
-	public String getAddress() {
-		return address;
-	}
-
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
 
 	public String getEducationQualifications() {
 		return educationQualifications;
@@ -97,13 +85,27 @@ public class Teacher {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
+	
+
+	public User getUserId() {
+		return user;
+	}
+
+
+	public void setUserId(User userId) {
+		this.user = userId;
+	}
+
 
 	@Override
 	public String toString() {
-		return "Teacher [employeeId=" + employeeId + ", name=" + name + ", address=" + address
-				+ ", educationQualifications=" + educationQualifications + "]";
+		return "Teacher [employeeId=" + employeeId + ", educationQualifications=" + educationQualifications + ", role="
+				+ role + ", userId=" + user + "]";
 	}
 
+
+	
 	
 	
 	

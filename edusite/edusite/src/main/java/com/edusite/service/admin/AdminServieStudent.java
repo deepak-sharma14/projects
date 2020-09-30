@@ -3,6 +3,7 @@ package com.edusite.service.admin;
 import java.util.List;
 
 import com.edusite.entity.Student;
+import com.edusite.model.StudentModel;
 
 public interface AdminServieStudent {
 
@@ -13,7 +14,7 @@ public interface AdminServieStudent {
 	public Student findStudent(int id);
 	
 	//Method to POST a new/ an updated Student
-	public void saveStudent(Student student);
+	public void saveStudent(StudentModel student);
 	
 	//Method to DELETE a student by id
 	public void deleteStudent(int id);
