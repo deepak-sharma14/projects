@@ -11,5 +11,5 @@ import com.edusite.entity.Student;
 @Component
 
 public interface TeacherCustomDAO {
-	Optional<List<Student>> getByStudent(int employeeId);
+	Optional<List<Student>> getByStudent(String batch);
 }

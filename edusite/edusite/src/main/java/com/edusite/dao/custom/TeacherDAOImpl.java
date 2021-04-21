@@ -26,34 +26,20 @@ public class TeacherDAOImpl implements TeacherCustomDAO  {
 	EntityManager entityManager;
 	
 	@Override
-	public Optional<List<Student>> getByStudent(int employeeId) {
+	public Optional<List<Student>> getByStudent(String batch) {
 		
 		Optional<List<Student>> students = null;
 		
 		Session session = entityManager.unwrap(Session.class);
 		
-		Criteria criteriaBatch = session.createCriteria(Batch.class);
-		
-			Projection batchProjection = Projections.property("bacth");
-		
-			criteriaBatch.setProjection(batchProjection);
-		
-			Criterion batchCriterion = Restrictions.eq("employeeId", employeeId);
-			
-			criteriaBatch.add(batchCriterion);
-		
-		List<String> batches =(List<String>) criteriaBatch.list();
-		
-		for (String batch : batches) {
 			Criteria criteriaStudent = session.createCriteria(Student.class);
 		
-				Criterion studentCriterion = Restrictions.eq("bacth", batch);
+				Criterion studentCriterion = Restrictions.eq("batch", batch);
 				
-			criteriaStudent.add(studentCriterion);
+				criteriaStudent.add(studentCriterion);
 			
 			 students = Optional.of(criteriaStudent.list()); 
 		
-		}
 		
 		return students;
 	}

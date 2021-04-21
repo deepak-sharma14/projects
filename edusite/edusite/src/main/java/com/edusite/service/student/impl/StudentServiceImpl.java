@@ -2,6 +2,7 @@ package com.edusite.service.student.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,15 +10,15 @@ import org.springframework.stereotype.Service;
 import com.edusite.dao.StudentRepository;
 import com.edusite.dao.SyllabusRepository;
 import com.edusite.dao.TestRepository;
-import com.edusite.dao.custom.StudentCustomDAO;
+import com.edusite.entity.Batch;
 import com.edusite.entity.ClassTest;
 import com.edusite.entity.Student;
-import com.edusite.entity.Subject;
 import com.edusite.entity.Syllabus;
 import com.edusite.exceptionhandler.ClassTestNotFoundExcpetion;
 import com.edusite.exceptionhandler.StudentNotFoundExcpetion;
 import com.edusite.exceptionhandler.SyllabusNotFoundExcpetion;
-import com.edusite.model.StudentModel;
+import com.edusite.model.GetTeacherAndSubjectNames;
+import com.edusite.model.SyllabusModel;
 import com.edusite.service.student.StudentService;
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -30,9 +31,6 @@ public class StudentServiceImpl implements StudentService {
 	
 	@Autowired
 	private SyllabusRepository syllabusRepository;
-	
-	@Autowired
-	private StudentCustomDAO studentDAO;
 	
 	@Override
 	public List<ClassTest> findAll() {
@@ -74,34 +72,42 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public StudentModel getSubject(int admissionNumber) {
+	public GetTeacherAndSubjectNames getSubject(int admissionNumber) {
 
-		Optional<List<Subject>> result = studentDAO.getBySubject(admissionNumber);
+		Optional<Student> result = studentRepository.findById(admissionNumber);
 		
-		StudentModel student = new StudentModel();
+		GetTeacherAndSubjectNames student = new GetTeacherAndSubjectNames();
 		
 		if (result.isPresent()) {
-			List<Subject> subjects= result.get();
-			for (Subject subject : subjects) {
-				student.setsubjectInfo(subject.getSubject(), subject.getSubjectCode(), subject.getEmployeeId());
-			}
+			
+			Set<Batch> studentBatches = result.get().getBatches();
 			student.setAdmissionNumber(admissionNumber);
+			for(Batch batch : studentBatches) {	
+//				System.out.println("Inside for loop to set teacher name and subject names");
+				student.addTeacherName(batch.getTeacher().getUser().getName());
+				student.addSubjectName(batch.getSyllabus().getSubjectName());
+			}
+
 		} else {
 			throw new StudentNotFoundExcpetion();
 		}
-		
+//		System.out.println(student.toString());
 		return student;
 	}
 
 	@Override
-	public Syllabus findSyllabus(int subjectCode) {
+	public SyllabusModel findSyllabus(String subjectName) {
 		
-		Optional<Syllabus> result = syllabusRepository.findById(subjectCode);
+		Optional<Syllabus> result = syllabusRepository.findBySubjectName(subjectName);
 		
-		Syllabus syllabus = null;
+		SyllabusModel syllabus = new SyllabusModel();
 		
 		if (result.isPresent()) {
-			syllabus = result.get();
+			syllabus.setSubjectName(result.get().getSubjectName());
+			syllabus.setContent(result.get().getSyllabusContent());
+			syllabus.setSubjectCode(result.get().getSubjectCode());
+			syllabus.setYear(result.get().getYear());
+			
 		} else {
 			throw new SyllabusNotFoundExcpetion();
 		}
