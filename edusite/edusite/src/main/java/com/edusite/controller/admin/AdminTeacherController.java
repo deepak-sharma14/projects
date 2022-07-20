@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.edusite.entity.Teacher;
 import com.edusite.exceptionhandler.TeacherNotFoundException;
+import com.edusite.model.AddBatchId;
+import com.edusite.model.TeacherModel;
 import com.edusite.service.admin.AdminServiceTeacher;
 
 @RestController
@@ -41,14 +43,14 @@ public class AdminTeacherController {
 	 * 
 	 */
 	@GetMapping("/teacher/{employeeId}")
-	public ResponseEntity<Teacher> findStudentByAdminNumber(@PathVariable int employeeId){
+	public ResponseEntity<Teacher> findTeacherByEmployeeId(@PathVariable int employeeId){
 			
 		Teacher tempTeacher = adminTeacherService.findTeacher(employeeId);
 			
 			if(tempTeacher == null){
 				throw new TeacherNotFoundException();
 			}	
-			return new ResponseEntity<>(tempTeacher,HttpStatus.ACCEPTED);
+			return new ResponseEntity<>(tempTeacher,HttpStatus.OK);
 		}
 	
 	/**
@@ -56,20 +58,32 @@ public class AdminTeacherController {
 	 * 
 	 */
 	@PostMapping("/teacher")
-	public ResponseEntity<Teacher> saveTeacher(@RequestBody Teacher teacher){
+	public ResponseEntity<TeacherModel> saveTeacher(@RequestBody TeacherModel teacher){
 			teacher.setEmployeeId(0);
+			teacher.setUserId(0);
 			adminTeacherService.saveTeacher(teacher);
-			return new ResponseEntity<>(teacher, HttpStatus.ACCEPTED);
+			return new ResponseEntity<>(teacher, HttpStatus.OK);
 	}
 	/**
 	 * PUT mapping for /teachers to update a teacher
 	 * 
 	 */
 	@PutMapping("/teachers")
-	public ResponseEntity<String> updateTeacher(@RequestBody Teacher teacher){
+	public ResponseEntity<String> updateTeacher(@RequestBody TeacherModel teacher){
 		adminTeacherService.saveTeacher(teacher);
-		return new ResponseEntity<>("Teacher has been updated", HttpStatus.ACCEPTED);
+		return new ResponseEntity<>("Teacher has been updated", HttpStatus.OK);
 	}	
+	
+	/*
+	 * PUT mapping for adding One to Many in batch table
+	 */
+	
+	@PutMapping("/teacher/batches")
+	public ResponseEntity<String> addBatches(@RequestBody AddBatchId teacherBatch){
+		adminTeacherService.addBatches(teacherBatch);
+		return new ResponseEntity<>("Batches with batch Id " + teacherBatch.getBatchId() +"added to teacherId " + teacherBatch.getTeacherId()
+		,HttpStatus.OK);
+	}
 
 
 	/**
@@ -77,13 +91,15 @@ public class AdminTeacherController {
 	 * 
 	 */
 	@DeleteMapping("/teacher/{employeeId}")
-	public ResponseEntity<String> deleteTeacherByEmployeeId(@PathVariable int emplpoyeeId){
-		Teacher tempTeacher = adminTeacherService.findTeacher(emplpoyeeId);
+	public ResponseEntity<String> deleteTeacherByEmployeeId(@PathVariable int employeeId){
+		Teacher tempTeacher = adminTeacherService.findTeacher(employeeId);
 		if(tempTeacher == null){
 			throw new TeacherNotFoundException();
+		}else {
+			adminTeacherService.deleteTeacher(employeeId);
 		}
-			return new ResponseEntity<>("Teacher deleted with employee id " + emplpoyeeId,
-											HttpStatus.ACCEPTED) ;
+			return new ResponseEntity<>("Teacher deleted with employee id " + employeeId,
+											HttpStatus.OK) ;
 	}
 
 }

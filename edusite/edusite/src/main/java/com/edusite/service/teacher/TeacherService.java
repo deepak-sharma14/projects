@@ -1,14 +1,17 @@
 package com.edusite.service.teacher;
 
 import com.edusite.entity.Teacher;
-import com.edusite.model.TeacherModel;
+import com.edusite.model.GetBatchNames;
+import com.edusite.model.GetStudentNames;
 
 public interface TeacherService {
 
 	/**
 	 * GET method for viewing the teachers profile 
 	 */
-	public Teacher findTeacherById(int employeeId);
+	public Teacher findTeacherById(Integer employeeId);
 
-	public TeacherModel getStudent(int employeeId);
+	public GetBatchNames findBatch(int employeeId);
+
+	public GetStudentNames getStudents(String batch);
 }

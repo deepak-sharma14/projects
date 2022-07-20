@@ -26,6 +26,7 @@ public class AdminStudentController {
 	@Autowired
 	private AdminServieStudent adminStudentService;
 	
+//	private GlobalExceptionHandler exceptionHandler;
 	
 	/**
 	 * GET mapping /students for finding all Students
@@ -40,12 +41,12 @@ public class AdminStudentController {
 	 * 
 	 */
 	@GetMapping("/student/{admissionNumber}")
-	public ResponseEntity<Student> findStudentByAdminNumber(@PathVariable int admissioNnumber){
-			Student tempStudent = adminStudentService.findStudent(admissioNnumber);
+	public ResponseEntity<Student> findStudentByAdminNumber(@PathVariable(name = "admissionNumber") Integer admissionNumber){
+			Student tempStudent = adminStudentService.findStudentById(admissionNumber);
 			if(tempStudent == null){
 				throw new StudentNotFoundExcpetion();
 			}	
-			return new ResponseEntity<>(tempStudent, HttpStatus.ACCEPTED);
+			return new ResponseEntity<>(tempStudent, HttpStatus.OK);
 		}
 	
 
@@ -57,8 +58,9 @@ public class AdminStudentController {
 	@PostMapping("/student")
 	public ResponseEntity<String> saveStudent(@RequestBody StudentModel student){
 			student.setAdmissionNumber(0);
+			student.setUserId(0);
 			adminStudentService.saveStudent(student);
-			return  new ResponseEntity<>("NewStudent created",HttpStatus.ACCEPTED);
+			return  new ResponseEntity<>("NewStudent created",HttpStatus.OK);
 	}
 	
 	
@@ -70,7 +72,7 @@ public class AdminStudentController {
 	public ResponseEntity<String> updateStudent(@RequestBody StudentModel student){
 		adminStudentService.saveStudent (student);
 		return new ResponseEntity<>("Student with admission number " + student.getAdmissionNumber() +
-										"has been updated", HttpStatus.ACCEPTED);  
+										"has been updated", HttpStatus.OK);  
 	}
 
 	
@@ -78,21 +80,14 @@ public class AdminStudentController {
 	 * DELETE mapping for /student/admissionNumber to delete a student
 	 * 
 	 */
-	@DeleteMapping("/student/admissionNumber")
+	@DeleteMapping("/student/{admissionNumber}")
 	public ResponseEntity<String> deleteStudentByAdmissionNumber(@PathVariable int admissionNumber){
-		Student tempStudent = adminStudentService.findStudent(admissionNumber);
+		Student tempStudent = adminStudentService.findStudentById(admissionNumber);
 		if(tempStudent == null){
 			throw new StudentNotFoundExcpetion();
 			}
 			return new ResponseEntity<>("Student deleted with admission number" + admissionNumber,
-											HttpStatus.ACCEPTED);
+											HttpStatus.OK);
 	}
 	
-	
-	/**
-	 * GET subjects from admission number
-	 */
-
-	
-
 }

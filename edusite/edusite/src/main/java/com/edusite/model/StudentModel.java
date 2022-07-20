@@ -1,45 +1,45 @@
 package com.edusite.model;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.edusite.entity.Student;
+import com.edusite.entity.User;
 
 public class StudentModel {
 	
 	private int admissionNumber;
 
+	private String address;
 	
 	private String name;
 	
-	
 	private String fatherName;
 	
-
 	private String motherName;
-	
-	
-	private String address;
-	
 	
 	private int year;
 	
-	
 	private String batch;
-	
 	
 	private String role;
 
+	private int userId;
 	
-	private List<Integer> subjectCode;
+	private Date dob;
 	
+	private String loginId;
 	
-	private List<String> subjectName;
+	private String password;
 	
+	private int batchId;
 	
-	private List<Integer> employeeId;
+	private List<String> subjectCodes;
 	
+	private List<String> subjectNames;
 	
-
+	private List<String> teacherNames;
+	
 
 	public StudentModel() {
 		//Constructor for model class of Student
@@ -125,66 +125,138 @@ public class StudentModel {
 		this.role = role;
 	}
 
+	
 
-	public List<Integer> getSubjectCode() {
-		return subjectCode;
+	public String getLoginId() {
+		return loginId;
 	}
 
 
-	public void setSubjectCode(List<Integer> subjectCode) {
-		this.subjectCode = subjectCode;
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public int getBatchId() {
+		return batchId;
+	}
+
+
+	public void setBatchId(int batchId) {
+		this.batchId = batchId;
+	}
+
+
+	public List<String> getSubjectCode() {
+		return subjectCodes;
+	}
+
+
+	public void setSubjectCode(List<String> subjectCode) {
+		this.subjectCodes = subjectCode;
 	}
 
 
 	public List<String> getSubjectName() {
-		return subjectName;
+		return subjectNames;
 	}
 
 
 	public void setSubjectName(List<String> subjectName) {
-		this.subjectName = subjectName;
+		this.subjectNames = subjectName;
 	}
 
-
-	public List<Integer> getEmployeeId() {
-		return employeeId;
-	}
-
-
-	public void setEmployeeId(List<Integer> employeeId) {
-		this.employeeId = employeeId;
+	public void addSubjectName(String subjectName) {
+		this.subjectNames.add(subjectName);
 	}
 	
-	public void setsubjectInfo(String subjectName, int subjectCode, int employeeId) {
-		this.subjectName.add(subjectName);
-		this.subjectCode.add(subjectCode);
-		this.employeeId.add(employeeId);
+	public List<String> getTeacherNames() {
+		return teacherNames;
 	}
+
+	public void setTeacherNames(List<String> teacherNames) {
+		this.teacherNames = teacherNames;
+	}
+	
+	public void addTeacherName(String teacherName) {
+		this.teacherNames.add(teacherName);
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	
+	
+
+	public Date getDob() {
+		return dob;
+	}
+
+
+	public void setDob(Date dob) {
+		this.dob = dob;
+	}
+
+
+	public void setsubjectInfo(String subjectName, String subjectCode) {
+		this.subjectNames.add(subjectName);
+		this.subjectCodes.add(subjectCode);
+	}
+	
+
 	
 
 	@Override
 	public String toString() {
 		return "StudentModel [admissionNumber=" + admissionNumber + ", name=" + name + ", fatherName=" + fatherName
 				+ ", motherName=" + motherName + ", address=" + address + ", year=" + year + ", batch=" + batch
-				+ ", role=" + role + ", subjectCode=" + subjectCode + ", subjectName=" + subjectName + ", employeeId="
-				+ employeeId + "]";
+				+ ", role=" + role + ", userId=" + userId + ", dob=" + dob + ", loginId=" + loginId + ", password="
+				+ password + ", subjectCode=" + subjectCodes + ", subjectName=" + subjectNames + ", teacherNames="
+				+ teacherNames + "]";
 	}
 
 
-	public Student converter(StudentModel student) {
+	public Student studentConverter(StudentModel student) {
 		Student studentEntity = new Student();
 		
 		studentEntity.setAdmissionNumber(student.getAdmissionNumber());
-		studentEntity.setName(student.getName());
-		studentEntity.setFatherName(student.getFatherName());
-		studentEntity.setMothersName(student.getMotherName());
-		studentEntity.setAddress(student.getAddress());
+		
 		studentEntity.setRole("Student");
 		studentEntity.setYear(student.getYear());
+	
+		
 		
 		return studentEntity;
 	}
 	
+	public User userConverter(StudentModel student) {
+		User user = new User();
+		user.setUserId(student.getUserId());
+		user.setName(student.getName());
+		user.setFatherName(student.getFatherName());
+		user.setMotherName(student.getMotherName());
+		user.setAddress(student.getAddress());
+		user.setDob(student.getDob());
+		user.setLoginId(student.getLoginId());
+		user.setPassword(student.getPassword());
+		
+		return user;
+		
+	}
 	
 	
 	

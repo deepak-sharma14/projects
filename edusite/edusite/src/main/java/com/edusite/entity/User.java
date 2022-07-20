@@ -2,9 +2,9 @@ package com.edusite.entity;
 
 import java.sql.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,12 +13,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
+
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "userId")
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@Column(name = "user_id")
 	private int userId;
 	
 	@Column(name = "name")
@@ -27,22 +27,31 @@ public class User {
 	@Column(name = "address")
 	private String address;
 	
-	@Column(name = "fatherName")
+	@Column(name = "father_name")
 	private String fatherName;
 	
-	@Column(name = "motherName")
+	@Column(name = "mother_name")
 	private String motherName;
 	
-	@Column(name = "loginId")
-	private String logid;
+	@Column(name = "login_id")
+	private String loginId;
 	
-	@Column(name = "dob")
+	@Column(name = "DOB")
 	private Date dob;
 	
 	@Column(name = "password")
 	private String password;
+	
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+	private Student student;
+	
+	@OneToOne(mappedBy = "userTeacher")
+	private Teacher teacher;
 
 	public User() {
+		/**
+		 * Default constructor
+		 */
 	}
 
 	public int getUserId() {
@@ -63,6 +72,12 @@ public class User {
 
 	public String getAddress() {
 		return address;
+	}
+	
+	
+
+	public void setStudent(Student student) {
+		this.student = student;
 	}
 
 	public void setAddress(String address) {
@@ -85,12 +100,12 @@ public class User {
 		this.motherName = motherName;
 	}
 
-	public String getLogid() {
-		return logid;
+	public String getLoginId() {
+		return loginId;
 	}
 
-	public void setLogid(String logid) {
-		this.logid = logid;
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
 	}
 
 	public Date getDob() {
@@ -112,7 +127,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", name=" + name + ", address=" + address + ", fatherName=" + fatherName
-				+ ", motherName=" + motherName + ", logid=" + logid + ", dob=" + dob + ", password=" + password + "]";
+				+ ", motherName=" + motherName + ", logid=" + loginId + ", dob=" + dob + ", password=" + password + "]";
 	}
 	
 	

@@ -3,6 +3,8 @@ package com.edusite.service.admin;
 import java.util.List;
 
 import com.edusite.entity.Teacher;
+import com.edusite.model.AddBatchId;
+import com.edusite.model.TeacherModel;
 
 public interface AdminServiceTeacher {
 
@@ -13,9 +15,11 @@ public interface AdminServiceTeacher {
 	public Teacher findTeacher(int id);
 	
 	//Method to POST a new/updated teacher
-	public void saveTeacher(Teacher teacher);
+	public void saveTeacher(TeacherModel teacher);
 	
 	//Method to DELETE a teacher
 	public void deleteTeacher(int id);
+
+	public void addBatches(AddBatchId teacherBatch);
 	
 }

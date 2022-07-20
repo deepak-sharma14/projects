@@ -11,7 +11,7 @@ public interface AdminServieStudent {
 	public List<Student> findAll();
 	
 	//Method to GET a particular student by admission number
-	public Student findStudent(int id);
+	public Student findStudentById(int id);
 	
 	//Method to POST a new/ an updated Student
 	public void saveStudent(StudentModel student);

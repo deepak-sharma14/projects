@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.edusite.dao.SyllabusRepository;
 import com.edusite.entity.Syllabus;
 import com.edusite.exceptionhandler.SyllabusNotFoundExcpetion;
+import com.edusite.model.SyllabusModel;
 import com.edusite.service.teacher.TeacherServiceSyllabus;
 @Service
 public class TeacherSyllabusImpl implements TeacherServiceSyllabus {
@@ -24,9 +25,9 @@ public class TeacherSyllabusImpl implements TeacherServiceSyllabus {
 
 	@Override
 	//ask about replacing subject with subject code
-	public Syllabus findSyllabus(int subjectCode) {
+	public Syllabus findSyllabus(int syllabusId) {
 		
-		Optional<Syllabus> result = syllabusRepository.findById(subjectCode);
+		Optional<Syllabus> result = syllabusRepository.findById(syllabusId);
 		
 		Syllabus syllabus = null;
 		
@@ -39,13 +40,16 @@ public class TeacherSyllabusImpl implements TeacherServiceSyllabus {
 	}
 
 	@Override
-	public void saveSyllabus(Syllabus syllabus) {
-		syllabusRepository.save(syllabus);
+	public void saveSyllabus(SyllabusModel syllabus) {
+		
+		Syllabus syllabusEntity = syllabus.syllabusConverter(syllabus);
+		
+		syllabusRepository.save(syllabusEntity);
 	}
 
 	@Override
-	public void deleteSyllabus(int year, String subject) {
-		//check for subject code and then delete it	
+	public void deleteSyllabus(int syllabusId) {
+		syllabusRepository.deleteById(syllabusId);
 	}
 
 }

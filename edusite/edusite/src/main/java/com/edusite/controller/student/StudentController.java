@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edusite.entity.Student;
-import com.edusite.entity.Syllabus;
 import com.edusite.exceptionhandler.StudentNotFoundExcpetion;
 import com.edusite.exceptionhandler.SyllabusNotFoundExcpetion;
-import com.edusite.model.StudentModel;
+import com.edusite.model.GetTeacherAndSubjectNames;
+import com.edusite.model.SyllabusModel;
 import com.edusite.service.student.StudentService;
 
 @RestController
@@ -36,11 +36,11 @@ public class StudentController {
 	}
 	
 	/**
-	 * GET call for getting subjects for a admission number
+	 * GET call for getting subjects with teacher for a admission number
 	 */
 	@GetMapping("/subject/{admissionnumber}")
-	public ResponseEntity<StudentModel> findSubjectById(@PathVariable int admissionNumber){
-		StudentModel student = studentService.getSubject(admissionNumber);
+	public ResponseEntity<GetTeacherAndSubjectNames> findSubjectById(@PathVariable int admissionnumber){
+		GetTeacherAndSubjectNames student = studentService.getSubject(admissionnumber);
 		
 		if (student == null) {
 			throw new StudentNotFoundExcpetion();
@@ -49,11 +49,11 @@ public class StudentController {
 	} 
 	
 	/**
-	 * GET call for syllabus for the syllabus of  subject with a subject code
+	 * GET call for syllabus of  subject with a subject Name
 	 */
-	@GetMapping("/subject/{subjectCode}")
-	public ResponseEntity<Syllabus> findSyllabusByCode(@PathVariable int subjectCode){
-		Syllabus syllabus = studentService.findSyllabus(subjectCode);
+	@GetMapping("/syllabus/{subjectName}")
+	public ResponseEntity<SyllabusModel> findSyllabusByCode(@PathVariable String subjectName){
+		SyllabusModel syllabus = studentService.findSyllabus(subjectName); 
 	
 		if (syllabus == null) {
 			throw new SyllabusNotFoundExcpetion();
